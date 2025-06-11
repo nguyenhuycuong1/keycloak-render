@@ -1,10 +1,14 @@
-FROM quay.io/keycloak/keycloak:26.0.8
+FROM quay.io/keycloak/keycloak:latest
 
-ENV KEYCLOAK_ADMIN=admin
-ENV KEYCLOAK_ADMIN_PASSWORD=admin
-
+# Build the optimized Keycloak first
 RUN /opt/keycloak/bin/kc.sh build
+
+# Set environment variables
+ENV KEYCLOAK_ADMIN=admin
+ENV KEYCLOAK_ADMIN_PASSWORD=your-secure-password
+ENV KC_HOSTNAME_STRICT=false
+ENV KC_HTTP_ENABLED=true
 
 EXPOSE 8080
 
-CMD ["/opt/keycloak/bin/kc.sh", "start", "--hostname-strict=false"]
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start", "--optimized"]
