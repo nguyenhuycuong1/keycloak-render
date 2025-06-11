@@ -1,9 +1,10 @@
 FROM quay.io/keycloak/keycloak:26.0.8
 
-# Tạo tài khoản admin khi khởi động
-:contentReference[oaicite:2]{index=2}
-:contentReference[oaicite:3]{index=3}
+ENV KC_HEALTH_ENABLED=true
+ENV KC_METRICS_ENABLED=true
+ENV KC_HTTP_ENABLED=true
+ENV KEYCLOAK_ADMIN=admin
+ENV KEYCLOAK_ADMIN_PASSWORD=admin
 
-# Khởi chạy trong chế độ phát triển (start-dev) hoặc production
-:contentReference[oaicite:4]{index=4}
-:contentReference[oaicite:5]{index=5}
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
+CMD ["start-dev", "--http-host=0.0.0.0"]
