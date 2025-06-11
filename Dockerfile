@@ -1,12 +1,14 @@
 FROM quay.io/keycloak/keycloak:26.0.8
 
-# Enable the optimized build and set the correct bind address
-ENV KC_HEALTH_ENABLED=true \
-    KC_METRICS_ENABLED=true \
-    KC_HTTP_RELATIVE_PATH=/auth \
-    KC_HOSTNAME_STRICT=false \
-    KC_HOSTNAME_STRICT_HTTPS=false
+# Tùy chọn: Copy các provider hoặc cấu hình tùy chỉnh nếu có
+# COPY ./your-theme /opt/keycloak/themes/your-theme
 
+# Build image với chế độ production
 RUN /opt/keycloak/bin/kc.sh build
 
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start", "--http-port=8080", "--hostname-strict=false", "--hostname-strict-https=false", "--http-enabled=true", "--http-relative-path=/auth", "--hostname=0.0.0.0"]
+# Thiết lập môi trường nếu cần
+ENV KC_HEALTH_ENABLED=true \
+    KC_METRICS_ENABLED=true
+
+# Khởi động Keycloak mà không dùng --hostname-strict-https
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start"]
