@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: keycloak-smart-hr
+    env: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /
